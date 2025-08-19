@@ -4,8 +4,20 @@ import re
 def scrape(url):
     response = requests.get(url)
     return response.text
-ask = input("Do you want to scrape a webpage for emails or links: ").strip().lower()  
+    
+headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36',
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+    'Accept-Language': 'en-US,en;q=0.5',
+    'Referer': 'https://google.com'
+}
 
+response = requests.get('https://httpbin.org/headers', headers=headers)
+
+ip = requests.get('https://api.ipify.org').text
+print(f"Your public IP address is: {ip}")
+
+ask = input("Do you want to scrape a webpage for emails or links: ").strip().lower()  
 if ask == "emails":
     print("You chose to scrape emails.")
     enter = input("Enter the URL to scrape for emails (eg., example.com): ").strip()
