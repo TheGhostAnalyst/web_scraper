@@ -10,6 +10,8 @@ The scraper is built with simplicity and extensibility in mind, making it easy t
 - Extracts emails, links, or structured data from websites
 - Supports both single-page and multi-page scraping
 - Easy to extend with custom parsing logic
+- Mimic normal browsers like chrom with headers to avoid getting flagged or blocked multiple times
+  
 
 ---
 
