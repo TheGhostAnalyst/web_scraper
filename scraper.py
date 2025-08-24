@@ -1,5 +1,29 @@
 import requests
 import re
+from datetime import datetime
+from pathlib import Path
+def save(links):
+    with open('scrapped_links.txt', 'a') as f:
+        now = datetime.now()
+        timestamp = now.strftime('%Y-%m-%d %H:%M')
+        f.write(f"######################################\n{timestamp}\n")
+        for link in links:
+            f.write(f"{link}\n")
+
+def out(url, ask):
+    the_path = Path('scrapped_links.txt').resolve()
+    print(f'Your scrapped {ask} for {url} has been saved in {the_path} ')
+
+def keep(emails):
+    with open('scrapped_emails.txt', 'a') as f:
+        now = datetime.now()
+        timestamp = now.strftime('%Y-%m-%d %H:%M')
+        f.write(f"######################################\n{timestamp}\n")
+        for email in emails:
+            f.write(f"{email}\n")
+def result(url, ask):
+    the_path = Path('scrapped_emails.txt').resolve()
+    print(f'Your scrapped {ask} for {url} has been saved in {the_path} ')
 
 def scrape(url, headers=None):
     response = requests.get(url, headers=headers)
@@ -12,6 +36,7 @@ headers = {
     'Referer': 'https://google.com'
 }
 
+# Get and display your IP
 # Get and display your IP
 ip = requests.get('https://api.ipify.org').text
 print(f"Your public IP address is: {ip}")
@@ -28,9 +53,11 @@ if ask == "emails":
     # Regex to find emails
     email_pattern = re.compile(r"[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+", re.IGNORECASE)
     emails = list(set(email_pattern.findall(page)))
-
+    print('Mails found:')
     for mail in emails:
-        print(f"Email found: {mail}")
+        print(mail)
+    keep(emails)
+    result(url,ask)
 
 elif ask == "links":
     print("You chose to scrape links.")
@@ -41,9 +68,11 @@ elif ask == "links":
     # Regex to find href links
     link_pattern = re.compile(r'href=[\'"]([^\'"]+)["\']', re.IGNORECASE)
     links = list(set(link_pattern.findall(page)))
-
+    print('Links found:')
     for link in links:
-        print(f"Link found: {link}")
+        print(link)
+    save(links)
+    out(url, ask)
 
 else:
     print("Invalid option. Please choose 'emails' or 'links'.")
